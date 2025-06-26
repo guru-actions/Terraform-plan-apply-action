@@ -1,0 +1,20 @@
+curl -s -X POST "$TFC_API/runs" \
+  -H "Authorization: Bearer $TFC_TOKEN" \
+  -H "Content-Type: application/vnd.api+json" \
+  -d "{
+    \"data\": {
+      \"attributes\": {
+        \"auto-apply\": true,
+        \"message\": \"Triggered run via curl\"
+      },
+      \"type\": \"runs\",
+      \"relationships\": {
+        \"workspace\": {
+          \"data\": {
+            \"type\": \"workspaces\",
+            \"id\": \"$WORKSPACE_ID\"
+          }
+        }
+      }
+    }
+  }"
