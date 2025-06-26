@@ -3,41 +3,43 @@ apiVersion: automation.cloudbees.io/v1alpha1
 kind: action
 name: terraform action
 description: an action used for plan and apply the configuration in Terraform cloud
-inputs:
-  
+inputs:  
   workspace-id:
     description: the id of the workspace
     required: true
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.foofact.outputs.myfoofact }}
+  token:
+    description: the token used for connecting Terraform Cloud
+    required: true
+  auto-apply:
+    description: whether apply automatically when plan succeeded
+    required: false
+    default: true
 runs:
   using: composite
   steps:
-    - id: get-a-fact
-      name: create simple output
+    - id: plan and apply
+      name: run
       uses: docker://finalspy/busybox-curl-jq
       shell: sh
       run: |
 
-curl -s -X POST "$TFC_API/runs" \
-  -H "Authorization: Bearer $TFC_TOKEN" \
-  -H "Content-Type: application/vnd.api+json" \
-  -d "{
-    \"data\": {
-      \"attributes\": {
-        \"auto-apply\": true,
-        \"message\": \"Triggered run via curl\"
-      },
-      \"type\": \"runs\",
-      \"relationships\": {
-        \"workspace\": {
+        curl -s -X POST "https://app.terraform.io/api/v2/runs" \
+        -H "Authorization: Bearer ${{ inputs.token }}" \
+        -H "Content-Type: application/vnd.api+json" \
+        -d "{
           \"data\": {
-            \"type\": \"workspaces\",
-            \"id\": \"$WORKSPACE_ID\"
+            \"attributes\": {
+            \"auto-apply\": true,
+            \"message\": \"Triggered run via curl\"
+            },
+          \"type\": \"runs\",
+          \"relationships\": {
+            \"workspace\": {
+              \"data\": {
+                \"type\": \"workspaces\",
+                \"id\": \"${{ inputs.workspace-id }}"
+              }
+            }
           }
-        }
-      }
-    }
-  }"
+         }
+        }"
