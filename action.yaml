@@ -1,3 +1,26 @@
+---
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: action
+name: terraform action
+description: an action used for plan and apply the configuration in Terraform cloud
+inputs:
+  
+  workspace-id:
+    description: the id of the workspace
+    required: true
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.foofact.outputs.myfoofact }}
+runs:
+  using: composite
+  steps:
+    - id: get-a-fact
+      name: create simple output
+      uses: docker://finalspy/busybox-curl-jq
+      shell: sh
+      run: |
+
 curl -s -X POST "$TFC_API/runs" \
   -H "Authorization: Bearer $TFC_TOKEN" \
   -H "Content-Type: application/vnd.api+json" \
