@@ -19,7 +19,7 @@ runs:
   steps:
     - id: plan
       name: run
-      uses: docker://finalspy/busybox-curl-jq:latest
+      uses: docker://gururepservice/argocd:latest
       shell: sh
       run: |
 
