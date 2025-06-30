@@ -17,7 +17,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - id: plan and apply
+    - id: plan
       name: run
       uses: docker://finalspy/busybox-curl-jq
       shell: sh
