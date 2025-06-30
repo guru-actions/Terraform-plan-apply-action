@@ -41,8 +41,8 @@ runs:
           }
          }
         }
-         EOF
-           )
+EOF
+        )
         
         echo $PAYLOAD
 
