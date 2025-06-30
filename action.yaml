@@ -27,8 +27,7 @@ runs:
 
         PAYLOAD=$(cat <<EOF
           {
-          "data": {
-            "attributes": {
+          "attributes": {
             "auto-apply": "${{ inputs.auto-apply }}",
             "message": "Triggered run via curl"
             },
@@ -41,9 +40,8 @@ runs:
               }
             }
           }
-         }
         }
-EOF
+        EOF
         )
         
         echo $PAYLOAD
