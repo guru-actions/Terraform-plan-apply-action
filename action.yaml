@@ -29,7 +29,7 @@ runs:
           {
           "data": {
             "attributes": {
-            "auto-apply": ${{ inputs.auto-apply }},
+            "auto-apply": "${{ inputs.auto-apply }}",
             "message": "Triggered run via curl"
             },
           "type": "runs",
