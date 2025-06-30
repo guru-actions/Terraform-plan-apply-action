@@ -23,6 +23,8 @@ runs:
       shell: sh
       run: |
 
+        #!/bin/bash
+
         PAYLOAD=$(cat <<EOF
           {
           "data": {
