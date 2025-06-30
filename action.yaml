@@ -23,23 +23,27 @@ runs:
       shell: sh
       run: |
 
-        curl -s -X POST "https://app.terraform.io/api/v2/runs" \
-        -H "Authorization: Bearer ${{ inputs.token }}" \
-        -H "Content-Type: application/vnd.api+json" \
-        -d "{
-          \"data\": {
-            \"attributes\": {
-            \"auto-apply\": ${{ inputs.auto-apply }},
-            \"message\": \"Triggered run via curl\"
+        PAYLOAD=$(cat <<EOF
+          {
+          "data": {
+            "attributes": {
+            "auto-apply": ${{ inputs.auto-apply }},
+            "message": "Triggered run via curl"
             },
-          \"type\": \"runs\",
-          \"relationships\": {
-            \"workspace\": {
-              \"data\": {
-                \"type\": \"workspaces\",
-                \"id\": \"${{ inputs.workspace-id }}"
+          "type": "runs",
+          "relationships": {
+            "workspace": {
+              "data": {
+                "type": "workspaces",
+                "id": "${{ inputs.workspace-id }}"
               }
             }
           }
          }
-        }"
+        }
+         EOF
+           )
+        
+        echo $PAYLOAD
+
+        curl -s -X POST "https://app.terraform.io/api/v2/runs" -H "Authorization: Bearer ${{ inputs.token }}" -H "Content-Type: application/vnd.api+json" --data "$PAYLOAD"
