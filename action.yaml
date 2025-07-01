@@ -27,6 +27,7 @@ runs:
 
         PAYLOAD=$(cat <<EOF
           {
+          "data":{
           "attributes": {
             "auto-apply": "${{ inputs.auto-apply }}",
             "message": "Triggered run via curl"
@@ -38,6 +39,7 @@ runs:
                 "type": "workspaces",
                 "id": "${{ inputs.workspace-id }}"
               }
+            }
             }
           }
         }
